@@ -18,13 +18,15 @@ class TaskDetailViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var tableView: UITableView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         loadTasks()
         loadSubTask()
+        setupLongGestureRecognizerOnCollection()
         
         navigationItem.title = currentTask[0].title
         textView.text = currentTask[0].text
@@ -109,7 +111,7 @@ class TaskDetailViewController: UIViewController, UITextViewDelegate {
     }
 }
 
-//MARK: - Subtask Tableview Delegate and Datasource
+//MARK: - Subtask Tableview Delegate and Data Source
 extension TaskDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -169,6 +171,43 @@ extension TaskDetailViewController: UITableViewDelegate, UITableViewDataSource {
             alert.addAction(cancel)
             alert.addAction(action)
             self.resignFirstResponder()
+            present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+//MARK: - Delete SubTask with long press gesture
+extension TaskDetailViewController: UIGestureRecognizerDelegate {
+    func setupLongGestureRecognizerOnCollection() {
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        longPressedGesture.minimumPressDuration = 0.5
+        longPressedGesture.delegate = self
+        longPressedGesture.delaysTouchesBegan = true
+        tableView?.addGestureRecognizer(longPressedGesture)
+    }
+    
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != .began) {
+            return
+        }
+        
+        let p = gestureRecognizer.location(in: tableView)
+        
+        if let indexPath = tableView?.indexPathForRow(at: p) {
+            
+            let alert = UIAlertController(title: "Delete Category?", message: "", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+                
+                self.context.delete(self.subTaskArray[indexPath.row])
+                self.subTaskArray.remove(at: indexPath.row)
+                self.tableView.reloadData()
+            }
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+            
+            alert.addAction(action)
+            alert.addAction(cancel)
+            
             present(alert, animated: true, completion: nil)
         }
     }

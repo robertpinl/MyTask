@@ -19,7 +19,7 @@ class TasksViewController: UITableViewController {
     }
     let formatter: DateFormatter = {
         let df = DateFormatter()
-        df.dateStyle = .medium
+        df.dateStyle = .short
         df.timeStyle = .short
         return df
     }()
@@ -32,8 +32,7 @@ class TasksViewController: UITableViewController {
         loadTasks()
     }
     
-    // MARK: - TableView Data Source
-    
+    // MARK: - TableView  Delegate and Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return taskArray.count
     }
@@ -42,7 +41,6 @@ class TasksViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.taskCell, for: indexPath) as! TaskTableViewCell
         let task = taskArray[indexPath.row]
         cell.taskTitleLabel.text = task.title
-        cell.taskSubtitleLabel.text = task.text
         cell.taskDoneImage.image = taskArray[indexPath.row].done ? UIImage(systemName: "checkmark.circle") : UIImage(systemName: "circle")
         cell.taskDateLabel.text = formatter.string(from: task.date!)
         return cell
@@ -69,7 +67,7 @@ class TasksViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 85
     }
     
     //MARK: - Add New Task

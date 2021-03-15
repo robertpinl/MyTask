@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CategoryViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class CategoryViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var categories = [Category]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -90,7 +90,7 @@ class CategoryViewController: UICollectionViewController, UICollectionViewDelega
 }
 
 //MARK: - Delete Category with long press gesture
-extension CategoryViewController {
+extension CategoryViewController: UIGestureRecognizerDelegate {
     
     func setupLongGestureRecognizerOnCollection() {
         let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))

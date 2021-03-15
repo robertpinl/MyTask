@@ -10,7 +10,6 @@ import UIKit
 class TaskTableViewCell: UITableViewCell {
 
     @IBOutlet weak var taskTitleLabel: UILabel!
-    @IBOutlet weak var taskSubtitleLabel: UILabel!
     @IBOutlet weak var taskDateLabel: UILabel!
     @IBOutlet weak var taskCellView: UIView!
     @IBOutlet weak var taskDoneImage: UIImageView!
