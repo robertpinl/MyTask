@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CategoryViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class CategoryViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     var categories = [Category]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -17,6 +17,7 @@ class CategoryViewController: UICollectionViewController, UICollectionViewDelega
     override func viewWillAppear(_ animated: Bool) {
         loadItems()
         collectionView.reloadData()
+        setupLongGestureRecognizerOnCollection()
     }
     
     //MARK: - CollectionView data source
@@ -86,15 +87,42 @@ class CategoryViewController: UICollectionViewController, UICollectionViewDelega
             print("Error fetching data from context: \(error)")
         }
     }
-    @IBAction func longPress(_ sender: UILongPressGestureRecognizer) {
-        
-        if sender.state == .began {
-            let touchPoint = sender.location(in: collectionView)
-            if let index = collectionView.indexPathForItem(at: touchPoint) {
-                print(index.item)
+}
+
+//MARK: - Delete Category with long press gesture
+extension CategoryViewController {
+    
+    func setupLongGestureRecognizerOnCollection() {
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        longPressedGesture.minimumPressDuration = 0.5
+        longPressedGesture.delegate = self
+        longPressedGesture.delaysTouchesBegan = true
+        collectionView?.addGestureRecognizer(longPressedGesture)
+    }
+
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != .began) {
+            return
+        }
+
+        let p = gestureRecognizer.location(in: collectionView)
+
+        if let indexPath = collectionView?.indexPathForItem(at: p) {
+            
+            let alert = UIAlertController(title: "Delete Category?", message: "", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Delete", style: .destructive) { (action) in
                 
+                self.context.delete(self.categories[indexPath.row])
+                self.categories.remove(at: indexPath.row)
+                self.collectionView.reloadData()
             }
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+            
+            alert.addAction(action)
+            alert.addAction(cancel)
+            
+            present(alert, animated: true, completion: nil)
         }
     }
 }
-

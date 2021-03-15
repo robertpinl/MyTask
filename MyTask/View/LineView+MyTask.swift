@@ -13,5 +13,4 @@ class LineView: UIView {
         layer.cornerRadius = bounds.height / 2
         layer.backgroundColor = UIColor(named: "lineColor")!.cgColor
     }
-
 }

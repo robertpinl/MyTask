@@ -14,5 +14,4 @@ class BackgroundView: UIView {
         layer.borderWidth = 0.65
         layer.borderColor = UIColor(named: "lineColor")!.cgColor
     }
-
 }

@@ -67,9 +67,6 @@
                                                 <constraint firstItem="XWe-Kx-lBe" firstAttribute="width" secondItem="dLF-gH-Op1" secondAttribute="height" multiplier="0.3" id="js0-Tn-U8C"/>
                                                 <constraint firstItem="QTS-ak-FfO" firstAttribute="centerX" secondItem="dLF-gH-Op1" secondAttribute="centerX" id="shg-CZ-7yf"/>
                                             </constraints>
-                                            <connections>
-                                                <outletCollection property="gestureRecognizers" destination="WXc-2F-crM" appends="YES" id="5Vd-Q6-eRh"/>
-                                            </connections>
                                         </view>
                                     </subviews>
                                     <constraints>
@@ -108,12 +105,6 @@
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bbc-Wy-lat" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="WXc-2F-crM">
-                    <connections>
-                        <action selector="longPress:" destination="aMz-aH-gKK" id="hzN-0A-xc8"/>
-                        <outlet property="delegate" destination="aMz-aH-gKK" id="w1h-Pn-u73"/>
-                    </connections>
-                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1043.4782608695652" y="89.732142857142847"/>
         </scene>

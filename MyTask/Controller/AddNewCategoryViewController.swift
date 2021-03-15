@@ -28,7 +28,6 @@ class AddNewCategoryViewController: UIViewController, UITextFieldDelegate {
         textField.text = "Title"
         textField.textColor = .lightGray
         
-        
         let height = view.bounds.width / 7
         let width = view.bounds.width / 7
         
@@ -50,17 +49,7 @@ class AddNewCategoryViewController: UIViewController, UITextFieldDelegate {
                 imageButtons.append(imageButton)
             }
         }
-        
         print(imageButtons[0].bounds.width)
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
-        textField.textColor = .label
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
     }
     
     @objc func iconSelected(_ sender: UIButton) {
@@ -71,7 +60,16 @@ class AddNewCategoryViewController: UIViewController, UITextFieldDelegate {
         }
         
         sender.isSelected = true
-        
+        textField.endEditing(true)
+    }
+    
+    //MARK: - TextField Delegate
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+        textField.textColor = .label
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
     }
     
@@ -79,11 +77,11 @@ class AddNewCategoryViewController: UIViewController, UITextFieldDelegate {
         resignFirstResponder()
     }
     
+    // Sa
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         saveCategory()
         navigationController?.popViewController(animated: true)
     }
-    
     
     //MARK: - Data manipulation
     func saveCategory() {
